@@ -110,15 +110,29 @@ async function deliverCode({ correo, code, purpose }) {
       text: 'Usa este código para restablecer tu contraseña. Expira en 15 minutos.',
     },
   }
-  const template = templates[purpose]
+const template = templates[purpose]
+  
+  console.log(`[Bizly] Evaluando correo para: ${correo}, propósito: ${purpose}`);
+  console.log(`[Bizly] ¿Está configurado el correo? ->`, emailConfigured());
+
   if (emailConfigured()) {
-    await sendCode({ to: correo, code, ...template })
-    return { delivered: true }
+    try {
+      console.log(`[Bizly] Intentando disparar sendCode a ${correo}...`);
+      const resultadoEnvio = await sendCode({ to: correo, code, ...template });
+      console.log(`[Bizly] Resultado de sendCode:`, resultadoEnvio);
+      return { delivered: true };
+    } catch (err) {
+      console.error(`[Bizly] Excepción atrapada al enviar correo:`, err);
+      return { delivered: false };
+    }
   }
+
   if (process.env.NODE_ENV !== 'production' && boolEnv('DEV_SHOW_EMAIL_CODES')) {
     console.warn(`[Bizly][DEV] Código ${purpose} para ${correo}: ${code}`)
     return { delivered: false, devCode: code }
   }
+  
+  console.warn(`[Bizly] El correo NO se envió porque emailConfigured() devolvió false.`);
   return { delivered: false }
 }
 
