@@ -10,9 +10,8 @@ async function sendCode({ to, subject, title, text, code }) {
   try {
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
     
-    // Configurar la API key (en Railway usaremos BREVO_PASS como la API Key)
-    const apiKey = apiInstance.authentications['apiKey'];
-    apiKey.apiKey = process.env.BREVO_PASS;
+    // Configurar autenticación por API Key usando BREVO_PASS
+    apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_PASS);
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
 
