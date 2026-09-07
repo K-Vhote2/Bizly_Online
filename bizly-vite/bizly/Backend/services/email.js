@@ -15,10 +15,10 @@ async function sendCode({ to, subject, title, text, code }) {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        sender: { 
-          name: process.env.EMAIL_FROM_NAME || 'Bizly', 
-          email: process.env.BREVO_USER || 'b82ac9001@smtp-brevo.com' 
-        },
+       sender: { 
+       name: process.env.EMAIL_FROM_NAME || 'Bizly', 
+      email: 'oreocon1litrodeleche@gmail.com' 
+      },
         to: [{ email: to }],
         subject: subject,
         htmlContent: `
