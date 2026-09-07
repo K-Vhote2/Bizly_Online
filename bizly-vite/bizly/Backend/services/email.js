@@ -8,6 +8,9 @@ function transporter() {
   if (!configured()) return null
   return nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE || 'gmail',
+    port: 587,
+    secure: false, // true para 465, false para 587
+    family: 4,     // Fuerza IPv4 para evitar el bloqueo de red en Railway
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
