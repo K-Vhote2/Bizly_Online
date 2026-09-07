@@ -1,16 +1,17 @@
 function configured() {
-  return Boolean(process.env.BREVO_PASS);
+  return Boolean(process.env.BREVO_PASS || process.env.BREVO_API_KEY);
 }
 
 async function sendCode({ to, subject, title, text, code }) {
-  if (!configured()) return false;
+  const apiKey = process.env.BREVO_PASS || process.env.BREVO_API_KEY;
+  if (!apiKey) return false;
 
   try {
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
         'accept': 'application/json',
-        'api-key': process.env.BREVO_PASS,
+        'api-key': apiKey,
         'content-type': 'application/json'
       },
       body: JSON.stringify({
