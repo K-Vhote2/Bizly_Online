@@ -8,9 +8,10 @@ async function sendCode({ to, subject, title, text, code }) {
   if (!configured()) return false;
 
   try {
+    // Instanciar usando la exportación correcta del SDK de Brevo
     const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
     
-    // Configurar autenticación por API Key usando BREVO_PASS
+    // Configurar la API key usando BREVO_PASS
     apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_PASS);
 
     const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
