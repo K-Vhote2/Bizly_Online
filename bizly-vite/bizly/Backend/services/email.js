@@ -1,4 +1,4 @@
-const SibApiV3Sdk = require('@getbrevo/brevo');
+const Brevo = require('@getbrevo/brevo');
 
 function configured() {
   return Boolean(process.env.BREVO_PASS);
@@ -8,13 +8,13 @@ async function sendCode({ to, subject, title, text, code }) {
   if (!configured()) return false;
 
   try {
-    // Instanciar usando la exportación correcta del SDK de Brevo
-    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+    // Usar la destructuración correcta para CommonJS del SDK de Brevo
+    const apiInstance = new Brevo.TransactionalEmailsApi();
     
     // Configurar la API key usando BREVO_PASS
-    apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_PASS);
+    apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_PASS);
 
-    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
 
     sendSmtpEmail.subject = subject;
     sendSmtpEmail.sender = { 
